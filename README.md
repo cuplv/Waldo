@@ -7,7 +7,7 @@ respect to private inputs. If a function soundly models a protocol, Waldo can th
 used to ensure that the protocol guarantees indistinguishability with respect to
 Waldo's model.
 
-Learn more about Waldo in our paper: [Verifying Indistinguishability of Privacy-Preserving Protocols](https://kirby.linvill.net/pdfs/indistinguishability_paper.pdf)
+Learn more about Waldo in our paper: [Verifying Indistinguishability of Privacy-Preserving Protocols](https://dl.acm.org/doi/abs/10.1145/3622849)
 
 ## What is indistinguishability?
 A function (resp. protocol) is indistinguishable if, for all possible results,
