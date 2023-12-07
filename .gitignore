@@ -1,3 +1,6 @@
 .DS_Store
 *~
 *.hints
+.depend
+_cache
+_output

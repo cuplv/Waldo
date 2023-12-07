@@ -1,35 +1,20 @@
-FSTAR ?= fstar.exe
-Z3 ?= z3
-
-INC_DIRS ?= "effects"
-INC_FLAGS := $(addprefix --include , $(INC_DIRS))
-
-FSTAR_FLAGS := $(INC_FLAGS) \
-			   --smt $(Z3) \
-			   --use_hints
-
-SPECS := $(wildcard *.fsti) $(wildcard *.fst) $(wildcard */*.fsti) $(wildcard */*.fst)
+FSTAR_FILES := $(wildcard *.fsti) $(wildcard *.fst) $(wildcard */*.fsti) $(wildcard */*.fst)
+INCLUDE_PATHS := effects
+OTHERFLAGS += --record_hints --use_hints
 
 .PHONY: all
-all: help verify
+all: verify
 	@$(MAKE) -C examples/OTP
 
-.PHONY: help
-help:
-	@echo "This Makefile checks all .fst and .fsti specifications in the current and child directories.\n"
+.PHONY: clean depend
+include Makefile.common
+
+CHECKED_FILES = $(addprefix $(CACHE_DIR)/,$(addsuffix .checked, $(notdir $(FSTAR_FILES))))
 
 .PHONY: verify
-verify: $(SPECS)
-	for spec in $(SPECS); do \
-		$(FSTAR) $$spec $(FSTAR_FLAGS) ; \
-	done
+verify: $(CHECKED_FILES)
 
-.PHONY: gen_hints
-gen_hints: $(SPECS)
-	for spec in $(SPECS); do \
-		$(FSTAR) $$spec $(FSTAR_FLAGS) --record_hints ; \
-	done
-
-.PHONY: clean
-clean:
-	rm $(wildcard *.hints)
+.PHONY: clean-hints
+clean: clean-hints
+clean-hints:
+	$(RM) $(wildcard *.hints)
